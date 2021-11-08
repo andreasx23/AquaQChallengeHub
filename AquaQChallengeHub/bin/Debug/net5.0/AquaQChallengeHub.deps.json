@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "AquaQChallengeHub/1.0.0": {
+        "dependencies": {
+          "AlgoKit": "0.0.77"
+        },
+        "runtime": {
+          "AquaQChallengeHub.dll": {}
+        }
+      },
+      "AlgoKit/0.0.77": {
+        "runtime": {
+          "lib/AlgoKit.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AquaQChallengeHub/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AlgoKit/0.0.77": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ezkNbke4vadSQiCU1xxsQmFyFdeKehiyOdV6i13mp/rXs/XiA0yRB6dm4SYC+BAVIbWJnFhBFEdh9RTt56jnSA==",
+      "path": "algokit/0.0.77",
+      "hashPath": "algokit.0.0.77.nupkg.sha512"
+    }
+  }
+}

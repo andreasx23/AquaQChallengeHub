@@ -1,0 +1,17 @@
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\bin\Debug\net5.0\AquaQChallengeHub.exe
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\bin\Debug\net5.0\AquaQChallengeHub.deps.json
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\bin\Debug\net5.0\AquaQChallengeHub.runtimeconfig.json
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\bin\Debug\net5.0\AquaQChallengeHub.runtimeconfig.dev.json
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\bin\Debug\net5.0\AquaQChallengeHub.dll
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\bin\Debug\net5.0\ref\AquaQChallengeHub.dll
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\bin\Debug\net5.0\AquaQChallengeHub.pdb
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\obj\Debug\net5.0\AquaQChallengeHub.csproj.AssemblyReference.cache
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\obj\Debug\net5.0\AquaQChallengeHub.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\obj\Debug\net5.0\AquaQChallengeHub.AssemblyInfoInputs.cache
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\obj\Debug\net5.0\AquaQChallengeHub.AssemblyInfo.cs
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\obj\Debug\net5.0\AquaQChallengeHub.csproj.CoreCompileInputs.cache
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\obj\Debug\net5.0\AquaQChallengeHub.dll
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\obj\Debug\net5.0\ref\AquaQChallengeHub.dll
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\obj\Debug\net5.0\AquaQChallengeHub.pdb
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\obj\Debug\net5.0\AquaQChallengeHub.genruntimeconfig.cache
+C:\Users\Andreas\Desktop\AquaQChallengeHub\AquaQChallengeHub\AquaQChallengeHub\bin\Debug\net5.0\AlgoKit.dll

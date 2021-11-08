@@ -1,0 +1,110 @@
+{
+  "version": 3,
+  "targets": {
+    "net5.0": {
+      "AlgoKit/0.0.77": {
+        "type": "package",
+        "compile": {
+          "lib/AlgoKit.dll": {}
+        },
+        "runtime": {
+          "lib/AlgoKit.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AlgoKit/0.0.77": {
+      "sha512": "ezkNbke4vadSQiCU1xxsQmFyFdeKehiyOdV6i13mp/rXs/XiA0yRB6dm4SYC+BAVIbWJnFhBFEdh9RTt56jnSA==",
+      "type": "package",
+      "path": "algokit/0.0.77",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "algokit.0.0.77.nupkg.sha512",
+        "algokit.nuspec",
+        "lib/AlgoKit.dll"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net5.0": [
+      "AlgoKit >= 0.0.77"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Andreas\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Andreas\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub.csproj",
+      "projectName": "AquaQChallengeHub",
+      "projectPath": "C:\\Users\\Andreas\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub.csproj",
+      "packagesPath": "C:\\Users\\Andreas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Andreas\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Andreas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net5.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net5.0": {
+        "targetAlias": "net5.0",
+        "dependencies": {
+          "AlgoKit": {
+            "target": "Package",
+            "version": "[0.0.77, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'AlgoKit 0.0.77' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net5.0'. This package may not be fully compatible with your project.",
+      "libraryId": "AlgoKit",
+      "targetGraphs": [
+        "net5.0"
+      ]
+    }
+  ]
+}
