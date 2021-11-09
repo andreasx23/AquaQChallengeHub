@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AquaQChallengeHub.Challanges.Challenge09
 {
-    public class Challenge09 : ChallengeBase<BigInteger>
+    public class Challenge09 : BaseChallenge<BigInteger>
     {
         private List<int> _values = new();
 

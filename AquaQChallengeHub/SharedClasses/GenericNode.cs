@@ -12,18 +12,23 @@ namespace AquaQChallengeHub.SharedClasses
         public TKey Key { get; set; }
         public Dictionary<GenericNode<TKey>, int> Children { get; private set; } = new();
 
-        public void AddChild(GenericNode<TKey> child, int cost)
+        /// <summary>
+        /// Append a child to the Childrens map
+        /// </summary>
+        /// <param name="child">The child to append</param>
+        /// <param name="cost">The cost to the child if none specified it will be defaulted to 1</param>
+        public void AddChild(GenericNode<TKey> child, int cost = 1)
         {
-            Children.Add(child, cost);
+            if (!Children.ContainsKey(child))
+                Children.Add(child, cost);
         }
-
 
         /// <summary>
         /// Calculate cheapest cost to target
         /// </summary>
         /// <param name="target">The target to find</param>
         /// <returns>-1 if not found else cost</returns>
-        public int CostToTarget(GenericNode<TKey> target)
+        public virtual int CostToTarget(GenericNode<TKey> target)
         {
             Comparer<int> comparer = Comparer<int>.Default;
             PairingHeap<int, GenericNode<TKey>> queue = new(comparer);
@@ -62,34 +67,35 @@ namespace AquaQChallengeHub.SharedClasses
         /// </summary>
         /// <param name="target">The target to find</param>
         /// <returns>null if no path found else a list of nodes with the path</returns>
-        public List<GenericNode<TKey>> PathToTarget(GenericNode<TKey> target)
+        public virtual List<GenericNode<TKey>> PathToTarget(GenericNode<TKey> target)
         {
-            Queue<(GenericNode<TKey> node, List<GenericNode<TKey>> path)> queue = new();
+            Comparer<int> comparer = Comparer<int>.Default;
+            PairingHeap<int, (GenericNode<TKey> node, List<GenericNode<TKey>> path)> queue = new(comparer);
             HashSet<(GenericNode<TKey> left, GenericNode<TKey> right)> isVisited = new();
             foreach (var kv in Children)
             {
                 isVisited.Add((this, kv.Key));
-                queue.Enqueue((kv.Key, new List<GenericNode<TKey>>() { kv.Key }));
+                queue.Add(kv.Value, (kv.Key, new List<GenericNode<TKey>>() { kv.Key }));
             }
 
-            while (queue.Any())
+            while (!queue.IsEmpty)
             {
-                (GenericNode<TKey> node, List<GenericNode<TKey>> path) = queue.Dequeue();
+                PairingHeapNode<int, (GenericNode<TKey> node, List<GenericNode<TKey>> path)> current = queue.Pop();
 
-                if (Compare(node.Key, target.Key))
-                    return path;
+                if (Compare(current.Value.node.Key, target.Key))
+                    return current.Value.path;
 
-                foreach (var kv in node.Children)
+                foreach (var kv in current.Value.node.Children)
                 {
-                    if (isVisited.Add((node, kv.Key)))
-                        queue.Enqueue((kv.Key, new List<GenericNode<TKey>>(path) { kv.Key }));
+                    if (isVisited.Add((current.Value.node, kv.Key)))
+                        queue.Add(kv.Value, (kv.Key, new List<GenericNode<TKey>>(current.Value.path) { kv.Key }));
                 }
             }
 
             return null;
         }
 
-        private bool Compare<T>(T x, T y)
+        private static bool Compare<T>(T x, T y)
         {
             return EqualityComparer<T>.Default.Equals(x, y);
         }

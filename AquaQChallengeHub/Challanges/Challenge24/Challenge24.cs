@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AquaQChallengeHub.Challanges.Challenge24
 {
-    public class Challenge24 : ChallengeBase<string>
+    public class Challenge24 : BaseChallenge<string>
     {
         private class TreeNode : GenericTreeNode<int>
         {

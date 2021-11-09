@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AquaQChallengeHub.Challanges.Challenge01
 {
-    public class Challenge01 : ChallengeBase<string>
+    public class Challenge01 : BaseChallenge<string>
     {
         private string input;
 

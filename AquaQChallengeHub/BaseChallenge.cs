@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AquaQChallengeHub
 {
-    public abstract class ChallengeBase<TValue> : IChallenge
+    public abstract class BaseChallenge<TValue> : IChallenge
     {
         protected abstract TValue SolveChallenge();
         protected virtual void ReadData() { } //No body since not always needed

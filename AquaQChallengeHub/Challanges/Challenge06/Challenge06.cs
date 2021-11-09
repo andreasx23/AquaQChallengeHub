@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AquaQChallengeHub.Challanges.Challenge06
 {
-    public class Challenge06 : ChallengeBase<int>
+    public class Challenge06 : BaseChallenge<int>
     {
         //3 numbers which sum to 123
         private const int TARGET = 123;

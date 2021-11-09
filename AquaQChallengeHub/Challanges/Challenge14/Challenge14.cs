@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AquaQChallengeHub.Challanges.Challenge14
 {
-    public class Challenge14 : ChallengeBase<int>
+    public class Challenge14 : BaseChallenge<int>
     {
         private List<List<int>> _calls = new();
         private int[,] _grid;

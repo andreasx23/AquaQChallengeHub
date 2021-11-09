@@ -10,7 +10,7 @@ using AquaQChallengeHub.SharedClasses;
 
 namespace AquaQChallengeHub.Challanges.Challenge10
 {
-    public class Challenge10 : ChallengeBase<int>
+    public class Challenge10 : BaseChallenge<int>
     {
         private readonly Dictionary<string, GenericNode<string>> _nodes = new();
 

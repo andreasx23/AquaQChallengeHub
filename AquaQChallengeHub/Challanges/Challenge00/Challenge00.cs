@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AquaQChallengeHub.Challanges.Challenge00
 {
-    public class Challenge00 : ChallengeBase<string>
+    public class Challenge00 : BaseChallenge<string>
     {
         private readonly Dictionary<string, string> _phone = new()
         {

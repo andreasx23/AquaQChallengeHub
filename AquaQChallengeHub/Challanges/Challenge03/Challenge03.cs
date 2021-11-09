@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AquaQChallengeHub.Challanges.Challenge03
 {
-    public class Challenge03 : ChallengeBase<int>
+    public class Challenge03 : BaseChallenge<int>
     {
         private const int mazeLength = 6;
         private string _instructions;

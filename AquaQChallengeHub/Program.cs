@@ -4,7 +4,10 @@ using AquaQChallengeHub.Challanges.Challenge08;
 using AquaQChallengeHub.Challanges.Challenge09;
 using AquaQChallengeHub.Challanges.Challenge10;
 using AquaQChallengeHub.Challanges.Challenge14;
+using AquaQChallengeHub.Challanges.Challenge15;
+using AquaQChallengeHub.Challanges.Challenge21;
 using AquaQChallengeHub.Challanges.Challenge24;
+using AquaQChallengeHub.Challanges.Challenge28;
 using System;
 
 namespace AquaQChallengeHub
@@ -13,7 +16,7 @@ namespace AquaQChallengeHub
     {
        public static void Main(string[] args)
         {
-            Challenge10 d = new();
+            Challenge28 d = new();
             d.TestCase();
         }
     }
