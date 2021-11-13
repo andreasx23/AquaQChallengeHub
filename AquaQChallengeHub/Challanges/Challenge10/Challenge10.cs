@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using AlgoKit.Collections.Heaps;
+using AquaQChallengeHub.Bases;
 using AquaQChallengeHub.SharedClasses;
 
 namespace AquaQChallengeHub.Challanges.Challenge10

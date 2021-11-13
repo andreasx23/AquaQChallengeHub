@@ -1,4 +1,5 @@
-﻿using AquaQChallengeHub.SharedClasses;
+﻿using AquaQChallengeHub.Bases;
+using AquaQChallengeHub.SharedClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
