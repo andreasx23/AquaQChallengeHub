@@ -17,7 +17,7 @@ namespace AquaQChallengeHub.Challanges.Challenge28
         protected override string SolveChallenge()
         {
             string ans = string.Empty;
-      
+
             foreach (var c in _word)
             {
                 Dirs direction = Dirs.RIGHT;
@@ -72,9 +72,9 @@ namespace AquaQChallengeHub.Challanges.Challenge28
                             break;
                         default:
                             ans += current;
-                            isMatch = true;                            
+                            isMatch = true;
                             break;
-                    }                    
+                    }
                 }
             }
 

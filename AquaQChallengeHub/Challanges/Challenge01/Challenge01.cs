@@ -41,7 +41,7 @@ namespace AquaQChallengeHub.Challanges.Challenge01
             string temp = string.Empty;
             foreach (var c in input)
             {
-                if (!char.IsDigit(c) && !char.IsLetter(c) || !char.IsDigit(c) && c > 'f')
+                if (!char.IsLetterOrDigit(c) || !char.IsDigit(c) && c > 'f')
                     temp += "0";
                 else
                     temp += c.ToString();
