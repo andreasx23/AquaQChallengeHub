@@ -11,16 +11,16 @@ namespace AquaQChallengeHub.Challanges.Challenge23
 {
     public class Challenge23 : BaseChallenge<string>
     {
-        private const bool SHOULD_USE_PADDING_FOR_DECRYPTING = false; //AquaQ Challenge Hub requires this true for correct answer to the challenge
+        private const bool SHOULD_USE_PADDING_FOR_DECRYPTING = true; //AquaQ Challenge Hub requires this true for correct answer to the challenge
         private const int MATRIX_SIZE = 5;
         private string _keyword;
         private string _text;
 
         protected override string SolveChallenge()
         {
-            Console.WriteLine($"Before encrypting: {_text}");
+            Console.WriteLine($"Plain text: {_text}");
             var encrypted = Encrypt(_text, _keyword);
-            Console.WriteLine($"Encrypted: {encrypted}");
+            Console.WriteLine($"Text encrypted: {encrypted}");
             var decrypted = Decrypt(!SHOULD_USE_PADDING_FOR_DECRYPTING ? encrypted : _text, _keyword);
             return decrypted;
         }
@@ -42,12 +42,12 @@ namespace AquaQChallengeHub.Challanges.Challenge23
             string copy = decrypted;
             if (!SHOULD_USE_PADDING_FOR_DECRYPTING)
             {
-                if (copy.Last() == 'x') 
+                if (copy.Last() == 'x')
                     copy = copy.Remove(copy.Length - 1);
 
-                for (int i = 1; i < copy.Length - 1; i++)
+                for (int i = 1; i < decrypted.Length - 1; i++)
                 {
-                    char prev = copy[i - 1], next = copy[i + 1];
+                    char prev = decrypted[i - 1], next = decrypted[i + 1];
                     if (prev == next)
                         copy = copy.Remove(i, 1);
                 }
@@ -84,12 +84,21 @@ namespace AquaQChallengeHub.Challanges.Challenge23
             {
                 if (twoLetters.All(grid[i].Contains))
                 {
-                    string temp = new(grid[i]);
+                    var temp = new string(grid[i]);
                     foreach (var c in twoLetters)
                     {
-                        int index = temp.IndexOf(c);
-                        int dy = isEncrypt ? Mod(index + 1, w) : Mod(index - 1, w);
-                        text += grid[i][dy];
+                        var index = temp.IndexOf(c);
+                        if (isEncrypt)
+                        {
+                            var dy = (index + 1) % w;
+                            text += grid[i][dy];
+                        }
+                        else
+                        {
+                            var dy = index - 1;
+                            if (dy == -1) dy = w - 1;
+                            text += grid[i][dy];
+                        }
                     }
 
                     return true;
@@ -116,8 +125,17 @@ namespace AquaQChallengeHub.Challanges.Challenge23
 
                     foreach (var (c, x, y) in temp)
                     {
-                        int dx = isEncrypt ? Mod(x + 1, h) : Mod(x - 1, h);
-                        text += grid[dx][y];
+                        if (isEncrypt)
+                        {
+                            var dx = (x + 1) % h;
+                            text += grid[dx][y];
+                        }
+                        else
+                        {
+                            var dx = x - 1;
+                            if (dx == -1) dx = h - 1;
+                            text += grid[dx][y];
+                        }
                     }
 
                     return true;
@@ -125,11 +143,6 @@ namespace AquaQChallengeHub.Challanges.Challenge23
             }
 
             return false;
-        }
-
-        private static int Mod(int value, int mod) //To handle negative numbers with mod
-        {
-            return (value % mod + mod) % mod;
         }
 
         private static string Box(char[][] grid, string text, string twoLetters)
@@ -140,12 +153,11 @@ namespace AquaQChallengeHub.Challanges.Challenge23
             {
                 bool isFound = false;
                 for (int i = 0; i < h && !isFound; i++)
+                {
                     for (int j = 0; j < w && !isFound; j++)
                         if (grid[i][j] == c)
-                        {
                             box.Add((c, i, j));
-                            isFound = true;
-                        }
+                }
             }
 
             if (box.First().c != twoLetters.First())
@@ -186,7 +198,7 @@ namespace AquaQChallengeHub.Challanges.Challenge23
 
         private static char[][] ConvertKeywordToMatrix(string keyword, int size)
         {
-            string distinct = keyword.Replace("j", string.Empty).Replace(" ", string.Empty);
+            string distinct = new string(keyword.Distinct().ToArray()).Replace("j", string.Empty).Replace(" ", string.Empty);
             HashSet<char> alphabet = distinct.ToHashSet();
             for (char i = 'a'; i <= 'z'; i++)
                 if (i != 'j' && !alphabet.Contains(i))
@@ -200,12 +212,13 @@ namespace AquaQChallengeHub.Challanges.Challenge23
                 for (int j = 0; j < size; j++)
                     result[i][j] = distinct[index++];
             }
+
             return result;
         }
 
         protected override void ReadData()
         {
-            bool useInput = false;
+            bool useInput = true;
             _keyword = useInput ? "power plant" : "playfair";
             string path = $@"C:\Users\Andreas\Desktop\AquaQChallengeHub\Challange input\{GetType().Name}\{(useInput ? "input" : "sample3")}.txt";
             _text = File.ReadAllLines(path).First();
