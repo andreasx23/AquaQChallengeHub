@@ -84,13 +84,14 @@ namespace AquaQChallengeHub.Challanges.Challenge23
             {
                 if (twoLetters.All(grid[i].Contains))
                 {
-                    string temp = new string(grid[i]);
+                    string temp = new(grid[i]);
                     foreach (var c in twoLetters)
                     {
                         int index = temp.IndexOf(c);
                         int dy = isEncrypt ? Mod(index + 1, w) : Mod(index - 1, w);
                         text += grid[i][dy];
                     }
+
                     return true;
                 }
             }
@@ -139,11 +140,12 @@ namespace AquaQChallengeHub.Challanges.Challenge23
             {
                 bool isFound = false;
                 for (int i = 0; i < h && !isFound; i++)
-                {
                     for (int j = 0; j < w && !isFound; j++)
                         if (grid[i][j] == c)
+                        {
                             box.Add((c, i, j));
-                }
+                            isFound = true;
+                        }
             }
 
             if (box.First().c != twoLetters.First())
@@ -179,14 +181,12 @@ namespace AquaQChallengeHub.Challanges.Challenge23
                 if (prev == current) copy = copy.Insert(i, "x");
             }
             if (copy.Length % 2 == 1) copy = copy.PadRight(copy.Length + 1, 'x');
-
-            List<string> result = GeneratePairs(copy);
-            return result;
+            return GeneratePairs(copy);
         }
 
         private static char[][] ConvertKeywordToMatrix(string keyword, int size)
         {
-            string distinct = new string(keyword.Distinct().ToArray()).Replace("j", string.Empty).Replace(" ", string.Empty);
+            string distinct = keyword.Replace("j", string.Empty).Replace(" ", string.Empty);
             HashSet<char> alphabet = distinct.ToHashSet();
             for (char i = 'a'; i <= 'z'; i++)
                 if (i != 'j' && !alphabet.Contains(i))
@@ -200,7 +200,6 @@ namespace AquaQChallengeHub.Challanges.Challenge23
                 for (int j = 0; j < size; j++)
                     result[i][j] = distinct[index++];
             }
-
             return result;
         }
 
