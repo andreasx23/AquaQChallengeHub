@@ -17,7 +17,7 @@ namespace AquaQChallengeHub.Challanges.Challenge16
         private readonly Dictionary<char, char[][]> _alphabet = new();
         private string _word;
 
-        protected override int SolveChallenge()
+        protected override int SolveChallenge() //Unsolved
         {
             List<List<char>> grid = new();
 
