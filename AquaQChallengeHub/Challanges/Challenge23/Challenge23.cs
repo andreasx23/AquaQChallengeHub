@@ -45,9 +45,9 @@ namespace AquaQChallengeHub.Challanges.Challenge23
                 if (copy.Last() == 'x') 
                     copy = copy.Remove(copy.Length - 1);
 
-                for (int i = 1; i < decrypted.Length - 1; i++)
+                for (int i = 1; i < copy.Length - 1; i++)
                 {
-                    char prev = decrypted[i - 1], next = decrypted[i + 1];
+                    char prev = copy[i - 1], next = copy[i + 1];
                     if (prev == next)
                         copy = copy.Remove(i, 1);
                 }
@@ -80,38 +80,27 @@ namespace AquaQChallengeHub.Challanges.Challenge23
         private static bool IsSameRow(char[][] grid, ref string text, string twoLetters, bool isEncrypt)
         {
             int h = grid.Length, w = grid.First().Length;
-            bool isSameRow = false;
             for (int i = 0; i < h; i++)
             {
                 if (twoLetters.All(grid[i].Contains))
                 {
-                    var temp = new string(grid[i]);
+                    string temp = new string(grid[i]);
                     foreach (var c in twoLetters)
                     {
-                        var index = temp.IndexOf(c);
-                        if (isEncrypt)
-                        {
-                            var dy = (index + 1) % w;
-                            text += grid[i][dy];
-                        }
-                        else
-                        {
-                            var dy = index - 1;
-                            if (dy == -1) dy = w - 1;
-                            text += grid[i][dy];
-                        }
+                        int index = temp.IndexOf(c);
+                        int dy = isEncrypt ? Mod(index + 1, w) : Mod(index - 1, w);
+                        text += grid[i][dy];
                     }
-                    isSameRow = true;
-                    break;
+                    return true;
                 }
             }
-            return isSameRow;
+
+            return false;
         }
 
         private static bool IsSameColumn(char[][] grid, ref string text, string twoLetters, bool isEncrypt)
         {
             int h = grid.Length, w = grid.First().Length;
-            bool isSameColumn = false;
             for (int i = 0; i < h; i++)
             {
                 List<(char c, int x, int y)> temp = new();
@@ -126,24 +115,20 @@ namespace AquaQChallengeHub.Challanges.Challenge23
 
                     foreach (var (c, x, y) in temp)
                     {
-                        if (isEncrypt)
-                        {
-                            var dx = (x + 1) % h;
-                            text += grid[dx][y];
-                        }
-                        else
-                        {
-                            var dx = x - 1;
-                            if (dx == -1) dx = h - 1;
-                            text += grid[dx][y];
-                        }
+                        int dx = isEncrypt ? Mod(x + 1, h) : Mod(x - 1, h);
+                        text += grid[dx][y];
                     }
 
-                    isSameColumn = true;
-                    break;
+                    return true;
                 }
             }
-            return isSameColumn;
+
+            return false;
+        }
+
+        private static int Mod(int value, int mod) //To handle negative numbers with mod
+        {
+            return (value % mod + mod) % mod;
         }
 
         private static string Box(char[][] grid, string text, string twoLetters)
@@ -175,13 +160,13 @@ namespace AquaQChallengeHub.Challanges.Challenge23
 
         private static List<string> GeneratePairs(string word)
         {
-            string ans = string.Empty;
+            List<string> pairs = new();
             for (int i = 1; i < word.Length; i += 2)
             {
                 char prev = word[i - 1], current = word[i];
-                ans += $"{prev}{current} ";
+                pairs.Add($"{prev}{current}");
             }
-            return ans.Trim().Split(' ').ToList();
+            return pairs;
         }
 
         private static List<string> PrepareLookup(string text)
@@ -221,7 +206,7 @@ namespace AquaQChallengeHub.Challanges.Challenge23
 
         protected override void ReadData()
         {
-            bool useInput = true;
+            bool useInput = false;
             _keyword = useInput ? "power plant" : "playfair";
             string path = $@"C:\Users\Andreas\Desktop\AquaQChallengeHub\Challange input\{GetType().Name}\{(useInput ? "input" : "sample3")}.txt";
             _text = File.ReadAllLines(path).First();
