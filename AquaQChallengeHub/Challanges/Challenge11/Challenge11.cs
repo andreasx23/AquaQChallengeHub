@@ -1,4 +1,5 @@
 ﻿using AquaQChallengeHub.Bases;
+using AquaQChallengeHub.SharedClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,9 +28,7 @@ namespace AquaQChallengeHub.Challanges.Challenge11
                 for (int i = lx; i < ux; i++)
                 {
                     for (int j = ly; j < uy; j++)
-                    {
                         _grid[i][j] = _grid[i][j] != (char)Tiles.FLOOR ? (char)Tiles.FLOOR : (char)Tiles.OVERLAP;
-                    }
                 }
             }
 
@@ -39,9 +38,7 @@ namespace AquaQChallengeHub.Challanges.Challenge11
             for (int i = 0; i < _h; i++)
             {
                 for (int j = 0; j < _w; j++)
-                {
                     if (_grid[i][j] == (char)Tiles.OVERLAP) ans += DFS(i, j);
-                }
             }
 
             //Print();
@@ -51,9 +48,13 @@ namespace AquaQChallengeHub.Challanges.Challenge11
 
         private int DFS(int x, int y)
         {
-            if (x < 0 || x >= _h || y < 0 || y >= _w || _grid[x][y] == (char)Tiles.EMPTY) return 0;
+            if (!Direction.Inbounds(_grid, x, y) || _grid[x][y] == (char)Tiles.EMPTY) return 0;
             _grid[x][y] = (char)Tiles.EMPTY;
-            return 1 + DFS(x - 1, y) + DFS(x + 1, y) + DFS(x, y - 1) + DFS(x, y + 1);
+
+            int sum = 0;
+            foreach (var coord in Direction.WALK)
+                sum += DFS(coord.x + x, coord.y + y);
+            return 1 + sum;
         }
 
         private void Print()
@@ -84,9 +85,7 @@ namespace AquaQChallengeHub.Challanges.Challenge11
             {
                 _grid[i] = new char[_w];
                 for (int j = 0; j < _w; j++)
-                {
                     _grid[i][j] = (char)Tiles.EMPTY;
-                }
             }
         }
     }

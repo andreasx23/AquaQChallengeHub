@@ -53,40 +53,10 @@ namespace AquaQChallengeHub.SharedClasses
                 throw new Exception("INVALID TYPE TO VERIFY BOUNDS FOR!");
             }
 
-            foreach ((int x, int y) item in WALK)
-            {
-                int dx = x + item.x, dy = y + item.y;
-                if (dx < 0 || dx >= h || dy < 0 || dy >= w) return false;
-            }
-
-            return true;
-        }
-
-        public static bool InboundsWithDiagonal(ICollection maze, int x, int y)
-        {
-            int h = maze.Count, w;
-            if (maze.GetType() == typeof(int[][]))
-            {
-                int[][] cast = (int[][])maze;
-                w = cast.First().Length;
-            }
-            else if (maze.GetType() == typeof(char[][]))
-            {
-                char[][] cast = (char[][])maze;
-                w = cast.First().Length;
-            }
+            if (x < 0 || x >= h || y < 0 || y >= w)
+                return false;
             else
-            {
-                throw new Exception("INVALID TYPE TO VERIFY BOUNDS FOR!");
-            }
-                        
-            foreach ((int x, int y) item in WALK_WITH_DIAGONAL)
-            {
-                int dx = x + item.x, dy = y + item.y;
-                if (dx < 0 || dx >= h || dy < 0 || dy >= w) return false;
-            }
-
-            return true;
+                return true;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace AquaQChallengeHub
     {
        public static void Main(string[] args)
         {
-            Challenge35 d = new();
+            Challenge11 d = new();
             d.TestCase();
         }
     }
