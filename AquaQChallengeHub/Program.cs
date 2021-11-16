@@ -15,9 +15,12 @@ using AquaQChallengeHub.Challanges.Challenge23;
 using AquaQChallengeHub.Challanges.Challenge24;
 using AquaQChallengeHub.Challanges.Challenge25;
 using AquaQChallengeHub.Challanges.Challenge26;
+using AquaQChallengeHub.Challanges.Challenge27;
 using AquaQChallengeHub.Challanges.Challenge28;
 using AquaQChallengeHub.Challanges.Challenge30;
+using AquaQChallengeHub.Challanges.Challenge32;
 using AquaQChallengeHub.Challanges.Challenge33;
+using AquaQChallengeHub.Challanges.Challenge35;
 using System;
 
 namespace AquaQChallengeHub
@@ -26,7 +29,7 @@ namespace AquaQChallengeHub
     {
        public static void Main(string[] args)
         {
-            Challenge23 d = new();
+            Challenge35 d = new();
             d.TestCase();
         }
     }
