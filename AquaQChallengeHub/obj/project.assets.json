@@ -33,19 +33,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Andreas\\.nuget\\packages\\": {}
+    "C:\\Users\\andre\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Andreas\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub.csproj",
+      "projectUniqueName": "C:\\Users\\andre\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub.csproj",
       "projectName": "AquaQChallengeHub",
-      "projectPath": "C:\\Users\\Andreas\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub.csproj",
-      "packagesPath": "C:\\Users\\Andreas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Andreas\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub\\obj\\",
+      "projectPath": "C:\\Users\\andre\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub.csproj",
+      "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\andre\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Andreas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

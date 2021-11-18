@@ -1,7 +1,9 @@
 ﻿using AquaQChallengeHub.Bases;
 using AquaQChallengeHub.SharedClasses;
+using AquaQChallengeHub.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,11 +22,13 @@ namespace AquaQChallengeHub.Challanges.Challenge19
 
         private readonly List<Game> _games = new();
 
-        protected override int SolveChallenge() //Solved but could use memorization to find cycles
+        protected override int SolveChallenge()
         {
             int ans = 0;
 
             /*
+             * Solved but could use memorization to find cycles for faster execution. Took me 18 min and 30 seconds to bruteforce
+             * 
              * 30 answer: 16
              * 45 answer: 34
              * 99 answer: 44
@@ -38,13 +42,13 @@ namespace AquaQChallengeHub.Challanges.Challenge19
             */
             Parallel.ForEach(_games, game =>
             {
+                Stopwatch watch = Stopwatch.StartNew();
                 char[][] grid = GenerateGrid(game.Size, true);
                 foreach (var (x, y) in game.Initial)
                     grid[x][y] = '#';
 
                 for (int i = 0; i < game.Steps; i++)
                 {
-                    //if (i > 0 && i % game.Size == 0) Console.WriteLine($"i: {i} -- {game.Steps} {game.Size} {string.Join(", ", game.Initial)}");
                     char[][] clone = GenerateGrid(game.Size, false);
                     for (int j = 0; j < game.Size; j++)
                     {
@@ -56,10 +60,11 @@ namespace AquaQChallengeHub.Challanges.Challenge19
                     }
 
                     grid = clone;
+                    if (i > 0 && i % game.Size == 0) Console.WriteLine($"{game.Steps} {game.Size} {string.Join(", ", game.Initial)} -- {watch.GetEta(i, game.Steps)} time remaining");
                 }
 
                 int cnt = grid.Sum(row => row.Count(c => c == '#'));
-                Console.WriteLine(game.Steps + " " + cnt);
+                Console.WriteLine($"{game.Steps} finished. Lights on count: {cnt}. This part took: {watch.ElapsedMilliseconds} ms");
                 ans += cnt;
             });
 
