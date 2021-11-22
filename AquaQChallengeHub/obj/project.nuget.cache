@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "1LMq508y4Zjy4Y1xRHF51u29+cJyYxbYR6jPgHa18dgBvJL4uGs3sOz8paUITW9Km6sY0k4p+frBsItKn45Iyw==",
+  "dgSpecHash": "K3rkTKSdkJRpeq7cpN3herknDSmzwx4qwtws/R8DMhaYRQF5aN58Jo0ANwuwnOYdAQ6+5J/YAOp3GPVq5aZPWA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\andre\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub.csproj",
+  "projectFilePath": "C:\\Users\\Andreas\\Desktop\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub\\AquaQChallengeHub.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\andre\\.nuget\\packages\\algokit\\0.0.77\\algokit.0.0.77.nupkg.sha512"
+    "C:\\Users\\Andreas\\.nuget\\packages\\algokit\\0.0.77\\algokit.0.0.77.nupkg.sha512"
   ],
   "logs": [
     {

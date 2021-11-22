@@ -11,6 +11,7 @@ using AquaQChallengeHub.Challanges.Challenge15;
 using AquaQChallengeHub.Challanges.Challenge16;
 using AquaQChallengeHub.Challanges.Challenge17;
 using AquaQChallengeHub.Challanges.Challenge19;
+using AquaQChallengeHub.Challanges.Challenge20;
 using AquaQChallengeHub.Challanges.Challenge21;
 using AquaQChallengeHub.Challanges.Challenge22;
 using AquaQChallengeHub.Challanges.Challenge23;
@@ -20,6 +21,7 @@ using AquaQChallengeHub.Challanges.Challenge26;
 using AquaQChallengeHub.Challanges.Challenge27;
 using AquaQChallengeHub.Challanges.Challenge28;
 using AquaQChallengeHub.Challanges.Challenge30;
+using AquaQChallengeHub.Challanges.Challenge31;
 using AquaQChallengeHub.Challanges.Challenge32;
 using AquaQChallengeHub.Challanges.Challenge33;
 using AquaQChallengeHub.Challanges.Challenge35;
@@ -31,7 +33,7 @@ namespace AquaQChallengeHub
     {
        public static void Main(string[] args)
         {
-            Challenge19 d = new();
+            Challenge31 d = new();
             d.TestCase();
         }
     }

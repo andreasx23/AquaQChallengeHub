@@ -64,7 +64,7 @@ namespace AquaQChallengeHub.Challanges.Challenge19
                 }
 
                 int cnt = grid.Sum(row => row.Count(c => c == '#'));
-                Console.WriteLine($"{game.Steps} finished. Lights on count: {cnt}. This part took: {watch.ElapsedMilliseconds} ms");
+                Console.WriteLine($"{game.Steps} finished. Lights on count: {cnt}. This part took: {watch.Elapsed} ms");
                 ans += cnt;
             });
 

@@ -18,7 +18,7 @@ namespace AquaQChallengeHub.Bases
             Stopwatch watch = Stopwatch.StartNew();
             ReadData();
             TValue ans = SolveChallenge();
-            Console.WriteLine($"Challange took: {watch.ElapsedMilliseconds} ms to run, the answer is: {ans}");
+            Console.WriteLine($"Challange took: {watch.Elapsed} ms to run, the answer is: {ans}");
         }
     }
 }
