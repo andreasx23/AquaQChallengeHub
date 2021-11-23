@@ -27,8 +27,8 @@ namespace AquaQChallengeHub.Challanges.Challenge31
          * Cube directions: https://medium.com/@venkatesh20pillay/how-to-solve-a-3x3-rubiks-cube-beginners-method-6ae65d8b721
          * Actual 3D rubik cuke online: https://stackoverflow.com/a/62558531/15853751
          * 
-         * No idea what's wrong. Either the challenge https://challenges.aquaq.co.uk/challenge/31 is wrong or my solution is.
-         * Current solution gives answer: 8640 to input and I previously made a wrong solution (had mulitple errors) and got answer: 7200 which was accepted by the website
+         * No idea what's wrong. Either the challenge https://challenges.aquaq.co.uk/challenge/31 is wrong or my solution is. Multiple people have solved it on the website so my solution is more likely to be wrong.
+         * Current solution gives answer: 8640 to input and I previously made a wrong solution (had mulitple mistakes within the code) and got answer: 7200 which was accepted by the website
          */
         protected override int SolveChallenge()
         {
