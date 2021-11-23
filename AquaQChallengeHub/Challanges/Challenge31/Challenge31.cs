@@ -21,33 +21,28 @@ namespace AquaQChallengeHub.Challanges.Challenge31
             BACK = 6,
         }
 
-        private string _instructions;
+        private readonly List<string> _instructions = new();
 
-        protected override int SolveChallenge() //https://stackoverflow.com/a/62558531/15853751 //Visual of a rubiks cube
+        /* 
+         * Cube directions: https://medium.com/@venkatesh20pillay/how-to-solve-a-3x3-rubiks-cube-beginners-method-6ae65d8b721
+         * Actual 3D rubik cuke online: https://stackoverflow.com/a/62558531/15853751
+         * 
+         * No idea what's wrong. Either the challenge https://challenges.aquaq.co.uk/challenge/31 is wrong or my solution is.
+         * Current solution gives answer: 8640 to input and I previously made a wrong solution (had mulitple errors) and got answer: 7200 which was accepted by the website
+         */
+        protected override int SolveChallenge()
         {
-            var cube = GenerateCube(3);
+            int[][][] cube = GenerateInitialCube(3);
 
-            for (int i = 0; i < _instructions.Length - 1; i++) //Gave me right answer, but doesn't give right answer in the sample. So not sure if the sample is wrong or my solution is
+            foreach (var instruction in _instructions)
             {
-                bool isLastInstruction = false;
-                char current = _instructions[i], next = _instructions[i + 1];
-                string instruction = current.ToString();
-                if (next == '\'')
-                {
-                    instruction += next;
-                    i++;
-                }
-                else if (i + 1 == _instructions.Length - 1)
-                    isLastInstruction = true;
-
                 DoInstruction(cube, instruction);
-
                 //Console.WriteLine(instruction);
                 //Print(cube);
-
-                if (isLastInstruction) DoInstruction(cube, next.ToString());
+                //Console.WriteLine();
             }
 
+            Console.WriteLine(_instructions.Last());
             Print(cube);
 
             int[][] front = cube[GetFaceIndex(Face.FRONT)];
@@ -94,218 +89,270 @@ namespace AquaQChallengeHub.Challanges.Challenge31
 
         private void Print(int[][][] cube)
         {
-            string top = string.Empty, middle = string.Empty, bottom = string.Empty;
-            for (int i = 0; i < cube.Length; i++)
+            var up = cube[GetFaceIndex(Face.UP)];
+            string space = "    ";
+            for (int i = 0; i < 3; i++)
             {
-                top += string.Join("", cube[i][0]) + " ";
-                middle += string.Join("", cube[i][1]) + " ";
-                bottom += string.Join("", cube[i][2]) + " ";
+                Console.WriteLine(space + string.Join("", up[i]));
             }
+            Console.WriteLine(space + "(U)");
+            Console.WriteLine();
+
+            string top = string.Empty, middle = string.Empty, bottom = string.Empty;
+            var left = cube[GetFaceIndex(Face.LEFT)];
+            top += string.Join("", left[0]) + " ";
+            middle += string.Join("", left[1]) + " ";
+            bottom += string.Join("", left[2]) + " ";
+
+            var front = cube[GetFaceIndex(Face.FRONT)];
+            top += string.Join("", front[0]) + " ";
+            middle += string.Join("", front[1]) + " ";
+            bottom += string.Join("", front[2]) + " ";
+
+            var right = cube[GetFaceIndex(Face.RIGHT)];
+            top += string.Join("", right[0]);
+            middle += string.Join("", right[1]);
+            bottom += string.Join("", right[2]);
             Console.WriteLine(top);
             Console.WriteLine(middle);
             Console.WriteLine(bottom);
+            Console.WriteLine("(L)" + " " + "(F)" + " " + "(R)");
+            Console.WriteLine();
+
+            var down = cube[GetFaceIndex(Face.DOWN)];
+            for (int i = 0; i < 3; i++)
+            {
+                Console.WriteLine(space + string.Join("", down[i]));
+            }
+            Console.WriteLine(space + "(D)");
+            Console.WriteLine();
+
+            var back = cube[GetFaceIndex(Face.BACK)];
+            for (int i = 0; i < 3; i++)
+            {
+                Console.WriteLine(space + string.Join("", back[i]));
+            }
+            Console.WriteLine(space + "(B)");
         }
 
         private void RotateFront(int[][][] cube, bool isClockwise)
         {
+            int n = cube.First().Length;
+            List<int> right = new(), left = new(), down = new(), up = new();
+            for (int i = 0; i < n; i++)
+            {
+                right.Add(cube[GetFaceIndex(Face.RIGHT)][i][0]);
+                left.Add(cube[GetFaceIndex(Face.LEFT)][i][2]);
+                down.Add(cube[GetFaceIndex(Face.DOWN)][0][i]);
+                up.Add(cube[GetFaceIndex(Face.UP)][2][i]);
+            }
+            int[][] face = cube[GetFaceIndex(Face.FRONT)];
+
             if (isClockwise)
             {
-                var up = cube[GetFaceIndex(Face.UP)][2];
-                List<int> rights = new();
-                for (int i = 0; i < 3; i++)
-                    rights.Add(cube[GetFaceIndex(Face.RIGHT)][i][0]);
-                var down = cube[GetFaceIndex(Face.DOWN)][0];
-                List<int> lefts = new();
-                for (int i = 0; i < 3; i++)
-                    lefts.Add(cube[GetFaceIndex(Face.LEFT)][i][2]);
-
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < n; i++)
+                {
                     cube[GetFaceIndex(Face.RIGHT)][i][0] = up[i];
-                cube[GetFaceIndex(Face.DOWN)][0] = rights.ToArray();
-                for (int i = 0; i < 3; i++)
                     cube[GetFaceIndex(Face.LEFT)][i][2] = down[i];
-                cube[GetFaceIndex(Face.UP)][2] = lefts.ToArray();
+                    cube[GetFaceIndex(Face.UP)][2][i] = left[i];
+                    cube[GetFaceIndex(Face.DOWN)][0][i] = right[i];
+                }
+                cube[GetFaceIndex(Face.FRONT)] = RotateFaceClockwise(face);
             }
             else
             {
-                for (int i = 0; i < 3; i++)
-                    RotateFront(cube, true);
+                for (int i = 0; i < n; i++)
+                {
+                    cube[GetFaceIndex(Face.RIGHT)][i][0] = down[i];
+                    cube[GetFaceIndex(Face.LEFT)][i][2] = up[i];
+                    cube[GetFaceIndex(Face.UP)][2][i] = right[i];
+                    cube[GetFaceIndex(Face.DOWN)][0][i] = left[i];
+                }
+                cube[GetFaceIndex(Face.FRONT)] = RotateFaceCounterClockwise(face);
             }
         }
 
         private void RotateBack(int[][][] cube, bool isClockwise)
         {
+            int n = cube.First().Length;
+            List<int> right = new(), left = new(), down = new(), up = new();
+            for (int i = 0; i < n; i++)
+            {
+                right.Add(cube[GetFaceIndex(Face.RIGHT)][i][2]);
+                left.Add(cube[GetFaceIndex(Face.LEFT)][i][0]);
+                down.Add(cube[GetFaceIndex(Face.DOWN)][2][i]);
+                up.Add(cube[GetFaceIndex(Face.UP)][0][i]);
+            }
+            int[][] face = cube[GetFaceIndex(Face.BACK)];
+
             if (isClockwise)
             {
-                var up = cube[GetFaceIndex(Face.UP)][0];
-                List<int> rights = new();
-                for (int i = 0; i < 3; i++)
-                    rights.Add(cube[GetFaceIndex(Face.RIGHT)][i][2]);
-                var down = cube[GetFaceIndex(Face.DOWN)][2];
-                List<int> lefts = new();
-                for (int i = 0; i < 3; i++)
-                    lefts.Add(cube[GetFaceIndex(Face.LEFT)][i][0]);
-
-                for (int i = 0; i < 3; i++)
-                    cube[GetFaceIndex(Face.RIGHT)][i][2] = up[i];
-                cube[GetFaceIndex(Face.DOWN)][2] = rights.ToArray();
-                for (int i = 0; i < 3; i++)
-                    cube[GetFaceIndex(Face.LEFT)][i][0] = down[i];
-                cube[GetFaceIndex(Face.UP)][0] = lefts.ToArray();
+                for (int i = 0; i < n; i++)
+                {
+                    cube[GetFaceIndex(Face.RIGHT)][i][2] = down[i];
+                    cube[GetFaceIndex(Face.LEFT)][i][0] = up[i];
+                    cube[GetFaceIndex(Face.DOWN)][2][i] = left[i];
+                    cube[GetFaceIndex(Face.UP)][0][i] = right[i];
+                }
+                cube[GetFaceIndex(Face.BACK)] = RotateFaceClockwise(face);
             }
             else
             {
-                for (int i = 0; i < 3; i++)
-                    RotateBack(cube, true);
+                for (int i = 0; i < n; i++)
+                {
+                    cube[GetFaceIndex(Face.RIGHT)][i][2] = up[i];
+                    cube[GetFaceIndex(Face.LEFT)][i][0] = down[i];
+                    cube[GetFaceIndex(Face.DOWN)][2][i] = right[i];
+                    cube[GetFaceIndex(Face.UP)][0][i] = left[i];
+                }
+                cube[GetFaceIndex(Face.BACK)] = RotateFaceCounterClockwise(face);
             }
         }
 
         private void RotateLeft(int[][][] cube, bool isClockwise)
         {
+            int n = cube.First().Length;
+            List<int> front = new(), up = new(), back = new(), down = new();
+            for (int i = 0; i < n; i++)
+            {
+                down.Add(cube[GetFaceIndex(Face.DOWN)][i][0]);
+                back.Add(cube[GetFaceIndex(Face.BACK)][i][0]);
+                up.Add(cube[GetFaceIndex(Face.UP)][i][0]);
+                front.Add(cube[GetFaceIndex(Face.FRONT)][i][0]);
+            }
+            int[][] face = cube[GetFaceIndex(Face.LEFT)];
+
             if (isClockwise)
             {
-                List<int> frontValues = new(), upValues = new(), backValues = new(), downValues = new();
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < n; i++)
                 {
-                    frontValues.Add(cube[GetFaceIndex(Face.FRONT)][i][0]);
-                    upValues.Add(cube[GetFaceIndex(Face.UP)][i][0]);
-                    downValues.Add(cube[GetFaceIndex(Face.DOWN)][i][0]);
-                    backValues.Add(cube[GetFaceIndex(Face.BACK)][i][0]);
+                    cube[GetFaceIndex(Face.DOWN)][i][0] = front[i];
+                    cube[GetFaceIndex(Face.BACK)][i][0] = down[i];
+                    cube[GetFaceIndex(Face.UP)][i][0] = back[i];
+                    cube[GetFaceIndex(Face.FRONT)][i][0] = up[i];
                 }
-
-                for (int i = 0; i < 3; i++)
-                {
-                    cube[GetFaceIndex(Face.FRONT)][i][0] = upValues[i];
-                    cube[GetFaceIndex(Face.UP)][i][0] = backValues[i];
-                    cube[GetFaceIndex(Face.BACK)][i][0] = downValues[i];
-                    cube[GetFaceIndex(Face.DOWN)][i][0] = frontValues[i];
-                }
-
-                //List<int> frontValues = new(), upValues = new(), backValues = new(), downValues = new();
-                //for (int i = 0; i < 3; i++)
-                //{
-                //    frontValues.Add(cube[GetFaceIndex(Face.FRONT)][i][0]);
-                //    upValues.Add(cube[GetFaceIndex(Face.UP)][i][0]);
-                //    downValues.Add(cube[GetFaceIndex(Face.DOWN)][i][2]);
-                //    backValues.Add(cube[GetFaceIndex(Face.BACK)][i][2]);
-                //}
-
-                //for (int i = 0; i < 3; i++)
-                //{
-                //    cube[GetFaceIndex(Face.FRONT)][i][0] = upValues[i];
-                //    cube[GetFaceIndex(Face.UP)][i][0] = backValues[i];
-                //    cube[GetFaceIndex(Face.BACK)][i][2] = downValues[i];
-                //    cube[GetFaceIndex(Face.DOWN)][i][2] = frontValues[i];
-                //}
+                cube[GetFaceIndex(Face.LEFT)] = RotateFaceClockwise(face);
             }
             else
             {
-                for (int i = 0; i < 3; i++)
-                    RotateLeft(cube, true);
+                for (int i = 0; i < n; i++)
+                {
+                    cube[GetFaceIndex(Face.DOWN)][i][0] = back[i];
+                    cube[GetFaceIndex(Face.BACK)][i][0] = up[i];
+                    cube[GetFaceIndex(Face.UP)][i][0] = front[i];
+                    cube[GetFaceIndex(Face.FRONT)][i][0] = down[i];
+                }
+                cube[GetFaceIndex(Face.LEFT)] = RotateFaceCounterClockwise(face);
             }
         }
 
         private void RotateRight(int[][][] cube, bool isClockwise)
         {
+            int n = cube.First().Length;
+            List<int> front = new(), up = new(), back = new(), down = new();
+            for (int i = 0; i < n; i++)
+            {
+                up.Add(cube[GetFaceIndex(Face.UP)][i][2]);
+                back.Add(cube[GetFaceIndex(Face.BACK)][i][2]);
+                down.Add(cube[GetFaceIndex(Face.DOWN)][i][2]);
+                front.Add(cube[GetFaceIndex(Face.FRONT)][i][2]);
+            }
+            int[][] face = cube[GetFaceIndex(Face.RIGHT)];
+
             if (isClockwise)
             {
-                List<int> frontValues = new(), upValues = new(), backValues = new(), downValues = new();
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < n; i++)
                 {
-                    frontValues.Add(cube[GetFaceIndex(Face.FRONT)][i][2]);
-                    upValues.Add(cube[GetFaceIndex(Face.UP)][i][2]);
-                    backValues.Add(cube[GetFaceIndex(Face.BACK)][i][2]);
-                    downValues.Add(cube[GetFaceIndex(Face.DOWN)][i][2]);
+                    cube[GetFaceIndex(Face.UP)][i][2] = front[i];
+                    cube[GetFaceIndex(Face.BACK)][i][2] = up[i];
+                    cube[GetFaceIndex(Face.DOWN)][i][2] = back[i];
+                    cube[GetFaceIndex(Face.FRONT)][i][2] = down[i];
                 }
-
-                for (int i = 0; i < 3; i++)
-                {
-                    cube[GetFaceIndex(Face.FRONT)][i][2] = downValues[i];
-                    cube[GetFaceIndex(Face.UP)][i][2] = frontValues[i];
-                    cube[GetFaceIndex(Face.BACK)][i][2] = upValues[i];
-                    cube[GetFaceIndex(Face.DOWN)][i][2] = backValues[i];
-                }
-
-                //List<int> frontValues = new(), upValues = new(), backValues = new(), downValues = new();
-                //for (int i = 0; i < 3; i++)
-                //{
-                //    frontValues.Add(cube[GetFaceIndex(Face.FRONT)][i][2]);
-                //    upValues.Add(cube[GetFaceIndex(Face.UP)][i][2]);
-                //    backValues.Add(cube[GetFaceIndex(Face.BACK)][i][0]);
-                //    downValues.Add(cube[GetFaceIndex(Face.DOWN)][i][0]);
-                //}
-
-                //for (int i = 0; i < 3; i++)
-                //{
-                //    cube[GetFaceIndex(Face.FRONT)][i][2] = downValues[i];
-                //    cube[GetFaceIndex(Face.UP)][i][2] = frontValues[i];
-                //    cube[GetFaceIndex(Face.BACK)][i][0] = upValues[i];
-                //    cube[GetFaceIndex(Face.DOWN)][i][0] = backValues[i];
-                //}
+                cube[GetFaceIndex(Face.RIGHT)] = RotateFaceClockwise(face);
             }
             else
             {
-                for (int i = 0; i < 3; i++)
-                    RotateRight(cube, true);
+                for (int i = 0; i < n; i++)
+                {
+                    cube[GetFaceIndex(Face.UP)][i][2] = back[i];
+                    cube[GetFaceIndex(Face.BACK)][i][2] = down[i];
+                    cube[GetFaceIndex(Face.DOWN)][i][2] = front[i];
+                    cube[GetFaceIndex(Face.FRONT)][i][2] = up[i];
+                }
+                cube[GetFaceIndex(Face.RIGHT)] = RotateFaceCounterClockwise(face);
             }
         }
 
         private void RotateUp(int[][][] cube, bool isClockwise)
         {
+            int[][] face = cube[GetFaceIndex(Face.UP)];
+            int[] front = cube[GetFaceIndex(Face.FRONT)][0];
+            int[] right = cube[GetFaceIndex(Face.RIGHT)][0];
+            int[] back = cube[GetFaceIndex(Face.BACK)][0];
+            int[] left = cube[GetFaceIndex(Face.LEFT)][0];
+
             if (isClockwise)
             {
-                var front = cube[GetFaceIndex(Face.FRONT)][0];
-                var right = cube[GetFaceIndex(Face.RIGHT)][0];
-                var back = cube[GetFaceIndex(Face.BACK)][0];
-                var left = cube[GetFaceIndex(Face.LEFT)][0];
                 cube[GetFaceIndex(Face.LEFT)][0] = front;
                 cube[GetFaceIndex(Face.BACK)][0] = left;
                 cube[GetFaceIndex(Face.RIGHT)][0] = back;
                 cube[GetFaceIndex(Face.FRONT)][0] = right;
-
-                //var front = cube[GetFaceIndex(Face.FRONT)][0];
-                //var right = cube[GetFaceIndex(Face.RIGHT)][0];
-                //var back = cube[GetFaceIndex(Face.BACK)][2];
-                //var left = cube[GetFaceIndex(Face.LEFT)][2];
-                //cube[GetFaceIndex(Face.LEFT)][2] = front;
-                //cube[GetFaceIndex(Face.BACK)][2] = left;
-                //cube[GetFaceIndex(Face.RIGHT)][0] = back;
-                //cube[GetFaceIndex(Face.FRONT)][0] = right;
+                cube[GetFaceIndex(Face.UP)] = RotateFaceClockwise(face);
             }
             else
             {
-                for (int i = 0; i < 3; i++)
-                    RotateUp(cube, true);
+                cube[GetFaceIndex(Face.LEFT)][0] = back;
+                cube[GetFaceIndex(Face.BACK)][0] = right;
+                cube[GetFaceIndex(Face.RIGHT)][0] = front;
+                cube[GetFaceIndex(Face.FRONT)][0] = left;
+                cube[GetFaceIndex(Face.UP)] = RotateFaceCounterClockwise(face);
             }
         }
 
         private void RotateDown(int[][][] cube, bool isClockwise)
         {
+            int[][] face = cube[GetFaceIndex(Face.DOWN)];
+            int[] front = cube[GetFaceIndex(Face.FRONT)][2];
+            int[] right = cube[GetFaceIndex(Face.RIGHT)][2];
+            int[] back = cube[GetFaceIndex(Face.BACK)][2];
+            int[] left = cube[GetFaceIndex(Face.LEFT)][2];
+
             if (isClockwise)
             {
-                var front = cube[GetFaceIndex(Face.FRONT)][2];
-                var right = cube[GetFaceIndex(Face.RIGHT)][2];
-                var back = cube[GetFaceIndex(Face.BACK)][2];
-                var left = cube[GetFaceIndex(Face.LEFT)][2];
-                cube[GetFaceIndex(Face.LEFT)][2] = front;
-                cube[GetFaceIndex(Face.BACK)][2] = left;
-                cube[GetFaceIndex(Face.RIGHT)][2] = back;
-                cube[GetFaceIndex(Face.FRONT)][2] = right;
-
-                //var front = cube[GetFaceIndex(Face.FRONT)][2];
-                //var right = cube[GetFaceIndex(Face.RIGHT)][2];
-                //var back = cube[GetFaceIndex(Face.BACK)][0];
-                //var left = cube[GetFaceIndex(Face.LEFT)][0];
-                //cube[GetFaceIndex(Face.LEFT)][0] = front;
-                //cube[GetFaceIndex(Face.BACK)][0] = left;
-                //cube[GetFaceIndex(Face.RIGHT)][2] = back;
-                //cube[GetFaceIndex(Face.FRONT)][2] = right;
+                cube[GetFaceIndex(Face.RIGHT)][2] = front;
+                cube[GetFaceIndex(Face.BACK)][2] = right;
+                cube[GetFaceIndex(Face.LEFT)][2] = back;
+                cube[GetFaceIndex(Face.FRONT)][2] = left;
+                cube[GetFaceIndex(Face.DOWN)] = RotateFaceClockwise(face);
             }
             else
             {
-                for (int i = 0; i < 3; i++)
-                    RotateDown(cube, true);
+                cube[GetFaceIndex(Face.RIGHT)][2] = back;
+                cube[GetFaceIndex(Face.BACK)][2] = left;
+                cube[GetFaceIndex(Face.LEFT)][2] = front;
+                cube[GetFaceIndex(Face.FRONT)][2] = right;
+                cube[GetFaceIndex(Face.DOWN)] = RotateFaceCounterClockwise(face);
             }
+        }
+
+        private int[][] RotateFaceClockwise(int[][] face)
+        {
+            int n = face.Length;
+            int[][] rotatedFace = GenerateEmptyFace(n);
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    rotatedFace[j][n - 1 - i] = face[i][j];
+            return rotatedFace;
+        }
+
+        private int[][] RotateFaceCounterClockwise(int[][] face)
+        {
+            int n = face.Length;
+            int[][] rotatedFace = GenerateEmptyFace(n);
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    rotatedFace[j][i] = face[i][j];
+            return rotatedFace;
         }
 
         private int GetFaceIndex(Face face)
@@ -313,30 +360,50 @@ namespace AquaQChallengeHub.Challanges.Challenge31
             return (int)face - 1;
         }
 
-        private int[][][] GenerateCube(int size)
+        private int[][][] GenerateInitialCube(int size)
         {
             int[][][] cube = new int[6][][];
             for (int i = 0; i < cube.Length; i++)
             {
-                cube[i] = new int[size][];
-                for (int j = 0; j < cube[i].Length; j++)
+                cube[i] = GenerateEmptyFace(size);
+                for (int j = 0; j < size; j++)
                 {
-                    cube[i][j] = new int[size];
-                    for (int k = 0; k < cube[i][j].Length; k++)
+                    for (int k = 0; k < size; k++)
                     {
-                        cube[i][j][k] = (int)Enum.Parse(typeof(Face), (i + 1).ToString());
+                        object obj = Enum.Parse(typeof(Face), (i + 1).ToString());
+                        Face face = (Face)obj;
+                        int value = (int)obj;
+                        cube[GetFaceIndex(face)][j][k] = value;
                     }
                 }
             }
-
             return cube;
+        }
+
+        private int[][] GenerateEmptyFace(int size)
+        {
+            int[][] face = new int[size][];
+            for (int i = 0; i < size; i++)
+                face[i] = new int[size];
+            return face;
         }
 
         protected override void ReadData()
         {
             bool useInput = true;
-            string path = $@"C:\Users\Andreas\Desktop\AquaQChallengeHub\Challange input\{GetType().Name}\{(useInput ? "input" : "sample")}.txt";
-            _instructions = File.ReadAllLines(path).First();
+            string path = $@"C:\Users\Andreas\Desktop\AquaQChallengeHub\Challange input\{GetType().Name}\{(useInput ? "input" : "sample2")}.txt";
+            var lines = File.ReadAllLines(path).First();
+            string instruction = lines.First().ToString();
+            foreach (var c in lines.Skip(1))
+            {
+                if (char.IsLetter(c))
+                {
+                    _instructions.Add(instruction);
+                    instruction = string.Empty;
+                }
+                instruction += c;
+            }
+            _instructions.Add(instruction);
         }
     }
 }
