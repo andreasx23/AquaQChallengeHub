@@ -28,22 +28,33 @@ namespace AquaQChallengeHub.Challanges.Challenge31
          * Actual 3D rubik cuke online: https://stackoverflow.com/a/62558531/15853751
          * 
          * No idea what's wrong. Either the challenge https://challenges.aquaq.co.uk/challenge/31 is wrong or my solution is. Multiple people have solved it on the website so my solution is more likely to be wrong.
-         * Current solution gives answer: 8640 to input and I previously made a wrong solution (had mulitple mistakes within the code) and got answer: 7200 which was accepted by the website
+         * Current solution gives answer: 9720 to input and I previously made a wrong solution (had mulitple mistakes within the code) and got answer: 7200 which was accepted by the website
          */
         protected override int SolveChallenge()
         {
             int[][][] cube = GenerateInitialCube(3);
 
+            //int val = 0;
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    for (int j = 0; j < 3; j++)
+            //    {
+            //        cube[0][i][j] = val++;
+            //    }
+            //}
+
+            //cube[0][0][0] = 0;
+
             foreach (var instruction in _instructions)
             {
-                DoInstruction(cube, instruction);
+                cube = RotateCube(cube, instruction);
                 //Console.WriteLine(instruction);
                 //Print(cube);
                 //Console.WriteLine();
             }
 
-            Console.WriteLine(_instructions.Last());
-            Print(cube);
+            //Console.WriteLine(_instructions.Last());
+            //Print(cube);
 
             int[][] front = cube[GetFaceIndex(Face.FRONT)];
             int ans = 1;
@@ -53,38 +64,20 @@ namespace AquaQChallengeHub.Challanges.Challenge31
             return ans;
         }
 
-        private void DoInstruction(int[][][] cube, string instruction)
+        private int[][][] RotateCube(int[][][] cube, string instruction)
         {
             bool isClockwise = !instruction.Contains("\'");
-            switch (instruction)
+            cube = instruction switch
             {
-                case "F":
-                case "F'":
-                    RotateFront(cube, isClockwise);
-                    break;
-                case "L":
-                case "L'":
-                    RotateLeft(cube, isClockwise);
-                    break;
-                case "R":
-                case "R'":
-                    RotateRight(cube, isClockwise);
-                    break;
-                case "U":
-                case "U'":
-                    RotateUp(cube, isClockwise);
-                    break;
-                case "D":
-                case "D'":
-                    RotateDown(cube, isClockwise);
-                    break;
-                case "B":
-                case "B'":
-                    RotateBack(cube, isClockwise);
-                    break;
-                default:
-                    throw new Exception("Invalid instruction");
-            }
+                "F" or "F'" => RotateFront(cube, isClockwise),
+                "L" or "L'" => RotateLeft(cube, isClockwise),
+                "R" or "R'" => RotateRight(cube, isClockwise),
+                "U" or "U'" => RotateUp(cube, isClockwise),
+                "D" or "D'" => RotateDown(cube, isClockwise),
+                "B" or "B'" => RotateBack(cube, isClockwise),
+                _ => throw new Exception("Invalid instruction"),
+            };
+            return cube;
         }
 
         private void Print(int[][][] cube)
@@ -135,7 +128,7 @@ namespace AquaQChallengeHub.Challanges.Challenge31
             Console.WriteLine(space + "(B)");
         }
 
-        private void RotateFront(int[][][] cube, bool isClockwise)
+        private int[][][] RotateFront(int[][][] cube, bool isClockwise)
         {
             int n = cube.First().Length;
             List<int> right = new(), left = new(), down = new(), up = new();
@@ -170,9 +163,10 @@ namespace AquaQChallengeHub.Challanges.Challenge31
                 }
                 cube[GetFaceIndex(Face.FRONT)] = RotateFaceCounterClockwise(face);
             }
+            return cube;
         }
 
-        private void RotateBack(int[][][] cube, bool isClockwise)
+        private int[][][] RotateBack(int[][][] cube, bool isClockwise)
         {
             int n = cube.First().Length;
             List<int> right = new(), left = new(), down = new(), up = new();
@@ -207,9 +201,10 @@ namespace AquaQChallengeHub.Challanges.Challenge31
                 }
                 cube[GetFaceIndex(Face.BACK)] = RotateFaceCounterClockwise(face);
             }
+            return cube;
         }
 
-        private void RotateLeft(int[][][] cube, bool isClockwise)
+        private int[][][] RotateLeft(int[][][] cube, bool isClockwise)
         {
             int n = cube.First().Length;
             List<int> front = new(), up = new(), back = new(), down = new();
@@ -244,9 +239,10 @@ namespace AquaQChallengeHub.Challanges.Challenge31
                 }
                 cube[GetFaceIndex(Face.LEFT)] = RotateFaceCounterClockwise(face);
             }
+            return cube;
         }
 
-        private void RotateRight(int[][][] cube, bool isClockwise)
+        private int[][][] RotateRight(int[][][] cube, bool isClockwise)
         {
             int n = cube.First().Length;
             List<int> front = new(), up = new(), back = new(), down = new();
@@ -281,9 +277,10 @@ namespace AquaQChallengeHub.Challanges.Challenge31
                 }
                 cube[GetFaceIndex(Face.RIGHT)] = RotateFaceCounterClockwise(face);
             }
+            return cube;
         }
 
-        private void RotateUp(int[][][] cube, bool isClockwise)
+        private int[][][] RotateUp(int[][][] cube, bool isClockwise)
         {
             int[][] face = cube[GetFaceIndex(Face.UP)];
             int[] front = cube[GetFaceIndex(Face.FRONT)][0];
@@ -307,9 +304,10 @@ namespace AquaQChallengeHub.Challanges.Challenge31
                 cube[GetFaceIndex(Face.FRONT)][0] = left;
                 cube[GetFaceIndex(Face.UP)] = RotateFaceCounterClockwise(face);
             }
+            return cube;
         }
 
-        private void RotateDown(int[][][] cube, bool isClockwise)
+        private int[][][] RotateDown(int[][][] cube, bool isClockwise)
         {
             int[][] face = cube[GetFaceIndex(Face.DOWN)];
             int[] front = cube[GetFaceIndex(Face.FRONT)][2];
@@ -333,6 +331,7 @@ namespace AquaQChallengeHub.Challanges.Challenge31
                 cube[GetFaceIndex(Face.FRONT)][2] = right;
                 cube[GetFaceIndex(Face.DOWN)] = RotateFaceCounterClockwise(face);
             }
+            return cube;
         }
 
         private int[][] RotateFaceClockwise(int[][] face)
@@ -348,10 +347,16 @@ namespace AquaQChallengeHub.Challanges.Challenge31
         private int[][] RotateFaceCounterClockwise(int[][] face)
         {
             int n = face.Length;
-            int[][] rotatedFace = GenerateEmptyFace(n);
+            int[][] rotatedFace = new int[n][];
             for (int i = 0; i < n; i++)
+            {
+                rotatedFace[i] = new int[n];
                 for (int j = 0; j < n; j++)
-                    rotatedFace[j][i] = face[i][j];
+                    rotatedFace[i][j] = face[i][j];
+            }
+
+            for (int i = 0; i < 3; i++)
+                rotatedFace = RotateFaceClockwise(rotatedFace);
             return rotatedFace;
         }
 
@@ -380,6 +385,24 @@ namespace AquaQChallengeHub.Challanges.Challenge31
             return cube;
         }
 
+        private int[][][] CloneCube(int[][][] cube)
+        {
+            int[][][] clone = new int[cube.Length][][];
+            for (int i = 0; i < clone.Length; i++)
+            {
+                clone[i] = new int[cube[i].Length][];
+                for (int j = 0; j < clone[i].Length; j++)
+                {
+                    clone[i][j] = new int[cube[i][j].Length];
+                    for (int k = 0; k < clone[i][j].Length; k++)
+                    {
+                        clone[i][j][k] = cube[i][j][k];
+                    }
+                }
+            }
+            return clone;
+        }
+
         private int[][] GenerateEmptyFace(int size)
         {
             int[][] face = new int[size][];
@@ -391,7 +414,7 @@ namespace AquaQChallengeHub.Challanges.Challenge31
         protected override void ReadData()
         {
             bool useInput = true;
-            string path = $@"C:\Users\Andreas\Desktop\AquaQChallengeHub\Challange input\{GetType().Name}\{(useInput ? "input" : "sample2")}.txt";
+            string path = $@"C:\Users\Andreas\Desktop\AquaQChallengeHub\Challange input\{GetType().Name}\{(useInput ? "input" : "sample")}.txt";
             var lines = File.ReadAllLines(path).First();
             string instruction = lines.First().ToString();
             foreach (var c in lines.Skip(1))
